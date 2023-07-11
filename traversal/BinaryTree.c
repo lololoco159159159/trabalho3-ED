@@ -296,3 +296,21 @@ Vector *binary_tree_inorder_traversal(BinaryTree *bt){
     return v;
 }
 
+Vector *binary_tree_preorder_traversal(BinaryTree *bt){
+    Vector *v = vector_construct();
+    if (bt->root == NULL) return v;
+    Stack *s = stack_construct();
+    stack_push(s, bt->root);
+    while(!stack_empty(s)){
+        Node *node = stack_pop(s);
+        vector_push_back(v, key_val_pair_construct(node->key, node->value));
+        if (node->right != NULL) stack_push(s, node->right);
+        if (node->left != NULL) stack_push(s, node->left);
+    }
+    stack_destroy(s);
+    return v;
+}
+
+
+
+

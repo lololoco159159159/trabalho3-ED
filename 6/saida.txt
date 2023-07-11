@@ -1,6 +1,0 @@
-almir 74 1.76
-jose 32 1.56
-maria 18 2.11
-naldo 43 1.89
-paulo 55 1.65
-zuleide 62 1.49

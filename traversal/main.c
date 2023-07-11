@@ -38,11 +38,11 @@ int main(){
     //Vector *v = binary_tree_inorder_traversal(bt);
     //Vector *v = binary_tree_preorder_traversal(bt);
     //Vector *v = binary_tree_postorder_traversal(bt);
-    Vector *v = binary_tree_levelorder_traversal(bt);
+    //Vector *v = binary_tree_levelorder_traversal(bt);
 
     //Vector *v = binary_tree_inorder_traversal_recursive(bt);
-    //Vector *v = binary_tree_preorder_traversal_recur//sive(bt);
-    //Vector *v = binary_tree_postorder_traversal_recursive(bt);
+    //Vector *v = binary_tree_preorder_traversal_recursive(bt);
+    Vector *v = binary_tree_postorder_traversal_recursive(bt);
 
     for (i = 0; i < vector_size(v); i++)
     {

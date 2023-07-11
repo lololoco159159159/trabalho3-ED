@@ -51,4 +51,8 @@ Vector *binary_tree_inorder_traversal_recursive(BinaryTree *bt);
 Vector *binary_tree_preorder_traversal_recursive(BinaryTree *bt);
 Vector *binary_tree_postorder_traversal_recursive(BinaryTree *bt);
 
+void inorder_traversal_recursive(Node *node, Vector *v);
+void preorder_traversal_recursive(Node *node, Vector *v);
+void postorder_traversal_recursive(Node *node, Vector *v);
+
 #endif

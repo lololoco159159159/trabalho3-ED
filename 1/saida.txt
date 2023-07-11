@@ -1,0 +1,5 @@
+jose 32 1.56
+paulo 55 1.65
+naldo 43 1.89
+maria 18 2.11
+jose 32 1.56

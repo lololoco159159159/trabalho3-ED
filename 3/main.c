@@ -32,25 +32,23 @@ void free_idx(void *idx);
 int main () {
     int n;
     char cmd[20];
-    //pessoa
-        char nome[20], cmd[20];
+    //if (pessoa)
+        char nome[20];
         int idade;
         float altura;
-        int n;
-
-    //celula
+        BinaryTree *bt = binary_tree_construct(Pessoa_cmp_fn, free_cpf, Pessoa_destruct);
+    //if (celula)
     /*
         int x, y;
+        BinaryTree *bt = binary_tree_construct(Celula_cmp_fn, free_idx, Celula_destruct);
     */
-    BinaryTree *bt = binary_tree_construct(Celula_cmp_fn, free_idx, Celula_destruct);
-
-
+   
     scanf("%d%*c", &n);
     for(int i = 0; i < n; i++){
         scanf("%s%*c", cmd);
         
         if (!strcmp(cmd, "SET")){
-            //celula
+            //if (celula)
             /*
                 scanf("%d %d%*c", &x, &y);
                 int *idx = malloc(sizeof(int));
@@ -60,19 +58,22 @@ int main () {
                 if (c)
                     Celula_destruct(c);
             */
-           //pessoa
+           //if (pessoa)
                 char *cpf;
                 cpf = malloc(sizeof(char) * 12);
 
                 scanf("%s%*c", cpf);
                 scanf("%s %d %f%*c", nome, &idade, &altura);
+                
                 Pessoa *p = Pessoa_construct(nome, idade, altura);
-                p = binary_tree_add(bt, cpf, p);
-                if (p)
-                    Pessoa_destruct(p);
+                Pessoa *aux = binary_tree_add(bt, cpf, p);
+                if (aux)
+                    Pessoa_destruct(aux);
         }
+        
         else if(!strcmp(cmd, "GET")){
-            //celula
+
+            //if (celula)
             /*
                 scanf("%d %d%*c", &x, &y);
                 Celula *c = Celula_construct(x, y);
@@ -83,18 +84,31 @@ int main () {
                     printf("%d\n", *idx);
                 Celula_destruct(c);
             */
-           //pessoa
-            char *cpf;
-            cpf = malloc(sizeof(char) * 12);
-            scanf("%s%*c", cpf);
+           //if (pessoa)
+                char *cpf;
+                cpf = malloc(sizeof(char) * 12);
+                scanf("%s%*c", cpf);
 
-            Pessoa *p = binary_tree_get(bt, cpf);
-            if (p == NULL)
-                printf("cpf nao encontrado\n");
-            else
-                Pessoa_print(p);
-            free(cpf);
+                Pessoa *p = binary_tree_get(bt, cpf);
+                if(p != NULL)
+                    Pessoa_print(p);
+                else{
+                    printf("CHAVE INEXISTENTE\n");}
+                free(cpf);
+
         }
+
+        else if(!strcmp(cmd, "POP")){
+            //pessoa
+                char *cpf;
+                cpf = malloc(sizeof(char) * 12);
+                scanf("%s%*c", cpf);
+                void *aux = binary_tree_remove(bt, cpf);
+                free_cpf(cpf);
+                if(aux != NULL)
+                    free(aux);
+        }
+        
         else printf("comando invalido\n");
     }
     

@@ -1,0 +1,48 @@
+usando como base a funcao
+
+struct Node{
+    void *key;
+    void *value;
+    struct Node *parent;
+    struct Node *left;
+    struct Node *right;
+};
+
+struct BinaryTree{
+    Node *root;
+    CmpFn cmp_fn;
+    KeyDestroyFn key_destroy_fn;
+    ValDestroyFn val_destroy_fn;
+};
+
+void binary_tree_add(BinaryTree *bt, void *key, void *value){
+    Node *node = node_construct(key, value, NULL, NULL);
+    if (bt->root == NULL){
+        bt->root = node;
+        return;
+    }
+    Node *current = bt->root;
+    while(1){
+        if (bt->cmp_fn(key, current->key) < 0){
+            if (current->left == NULL){
+                current->left = node;
+                node->parent = current;
+                return;
+            }
+            else current = current->left;
+        }
+        else{
+            if (current->right == NULL){
+                current->right = node;
+                node->parent = current;
+                return;
+            }
+            else current = current->right;
+        }
+    }
+}
+
+complete ela para o caso em que seja passado uma void *key ja existente na BinaryTree, mas com outro void *value.
+A função deve passar a alterar o void *value relacionado a key e atualizar a arvore para que se mantenha a propriedade de arvore binaria de busca.
+Vale ressaltar que é necessário atualizar os nodes relacionados com o node cujo valor foi alterado para que se mantenha a propriedade da arvore.
+Vale também lembrar que o ponteiro armazenado nos nodes (pia, esquerdo e direito) devem ser atualizados tambem caso exista alteracao na arvore

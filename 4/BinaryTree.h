@@ -16,8 +16,6 @@ typedef int (*CmpFn)(void *, void *);
 typedef void (*KeyDestroyFn)(void *);
 typedef void (*ValDestroyFn)(void *);
 
-
-
 KeyValPair *key_val_pair_construct(void *key, void *val);
 void key_val_pair_destroy(KeyValPair *kvp);
 
@@ -28,9 +26,13 @@ BinaryTree *binary_tree_construct(CmpFn cmp_fn, KeyDestroyFn key_destroy_fn,ValD
 void *binary_tree_add(BinaryTree *bt, void *key, void *value);
 //void binary_tree_add_recursive(BinaryTree *bt, void *key, void *value);
 int binary_tree_empty(BinaryTree *bt);
-void binary_tree_remove(BinaryTree *bt, void *key);
-KeyValPair binary_tree_min(BinaryTree *bt);
-KeyValPair binary_tree_max(BinaryTree *bt);
+void *binary_tree_remove(BinaryTree *bt, void *key);
+void transplant(BinaryTree *bt, Node *u, Node *v);
+void *tree_minimum(Node *x);
+void *binary_tree_delete(BinaryTree *bt, Node*z);
+
+KeyValPair *binary_tree_min(BinaryTree *bt);
+KeyValPair *binary_tree_max(BinaryTree *bt);
 KeyValPair binary_tree_pop_min(BinaryTree *bt);
 KeyValPair binary_tree_pop_max(BinaryTree *bt);
 void *binary_tree_get(BinaryTree *bt, void *key);

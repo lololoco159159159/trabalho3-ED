@@ -3,10 +3,6 @@
 #include <stdio.h>
 
 //===structs===//
-struct KeyValPair{
-    void *key;
-    void *value;
-};
 
 struct Node{
     void *key;
@@ -53,8 +49,6 @@ void key_val_pair_destroy(KeyValPair *kvp){
     free(kvp);
 }
 
-
-
 //===functions BinaryTree===//
 BinaryTree *binary_tree_construct(CmpFn cmp_fn, KeyDestroyFn key_destroy_fn,ValDestroyFn val_destroy_fn){
     BinaryTree *bt = (BinaryTree*) malloc(sizeof(BinaryTree));
@@ -65,32 +59,51 @@ BinaryTree *binary_tree_construct(CmpFn cmp_fn, KeyDestroyFn key_destroy_fn,ValD
     return bt;
 }
 
-void binary_tree_add(BinaryTree *bt, void *key, void *value){
-    Node *node = node_construct(key, value, NULL, NULL);
-    if (bt->root == NULL){
-        bt->root = node;
-        return;
-    }
-    Node *current = bt->root;
-    while(1){
-        if (bt->cmp_fn(key, current->key) < 0){
-            if (current->left == NULL){
-                current->left = node;
-                node->parent = current;
-                return;
-            }
-            else current = current->left;
+void *binary_tree_add(BinaryTree *bt, void *key, void *value){
+    int *idx = binary_tree_get(bt, key);
+    if (idx == NULL){
+        Node *node = node_construct(key, value, NULL, NULL);
+        if (bt->root == NULL){
+            bt->root = node;
+            return NULL;
         }
-        else{
-            if (current->right == NULL){
-                current->right = node;
-                node->parent = current;
-                return;
+      
+        Node *current = bt->root;
+        while(1){
+            if (bt->cmp_fn(key, current->key) < 0){
+                if (current->left == NULL){
+                    current->left = node;
+                    node->parent = current;
+                    return NULL;
+                }
+                else current = current->left;
             }
+            else{
+                if (current->right == NULL){
+                    current->right = node;
+                    node->parent = current;
+                    return NULL;
+                }
+                else current = current->right;
+            }
+        }
+        return NULL;
+    }
+    else{
+        Node *current = bt->root;
+        while(1){
+            if (bt->cmp_fn(key, current->key) == 0){
+                void *tmp = current->value;
+                current->value = value;
+                bt->val_destroy_fn(tmp);
+                return key;
+            }
+            else if (bt->cmp_fn(key, current->key) < 0) current = current->left;
             else current = current->right;
         }
     }
 }
+
 
 int binary_tree_empty(BinaryTree *bt){
     if (bt->root == NULL) return 1;
@@ -133,11 +146,18 @@ void binary_tree_destroy(BinaryTree *bt){
     free(bt);
 }
 
-
-
-
-
-
-
-
-
+//====BinaryTreePrint====//
+Vector *binary_tree_levelorder_traversal(BinaryTree *bt){
+    Vector *v = vector_construct();
+    if (bt->root == NULL) return v;
+    Queue *q = queue_construct();
+    queue_push(q, bt->root);
+    while(!queue_empty(q)){
+        Node *node = queue_pop(q);
+        vector_push_back(v, key_val_pair_construct(node->key, node->value));
+        if (node->left != NULL) queue_push(q, node->left);
+        if (node->right != NULL) queue_push(q, node->right);
+    }
+    queue_destroy(q);
+    return v;
+}

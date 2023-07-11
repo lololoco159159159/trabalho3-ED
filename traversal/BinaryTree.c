@@ -311,6 +311,29 @@ Vector *binary_tree_preorder_traversal(BinaryTree *bt){
     return v;
 }
 
-
+Vector *binary_tree_postorder_traversal(BinaryTree *bt){
+    Vector *v = vector_construct();
+    if (bt->root == NULL) return v;
+    Stack *s = stack_construct();
+    stack_push(s, bt->root);
+    Node *prev = NULL;
+    while(!stack_empty(s)){
+        Node *current = stack_top(s);
+        if (prev == NULL || prev->left == current || prev->right == current){
+            if (current->left != NULL) stack_push(s, current->left);
+            else if (current->right != NULL) stack_push(s, current->right);
+        }
+        else if (current->left == prev){
+            if (current->right != NULL) stack_push(s, current->right);
+        }
+        else{
+            vector_push_back(v, key_val_pair_construct(current->key, current->value));
+            stack_pop(s);
+        }
+        prev = current;
+    }
+    stack_destroy(s);
+    return v;
+}
 
 

@@ -10,5 +10,5 @@ void stack_push(Stack *s, data_type val);
 data_type stack_pop(Stack *s);
 int stack_empty(Stack *s);
 void stack_destroy(Stack *s);
-
+data_type stack_top(Stack *s);
 #endif

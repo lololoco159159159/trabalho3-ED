@@ -28,3 +28,7 @@ data_type stack_pop(Stack *stack){
 int stack_empty(Stack *s){
     return !forward_list_size(s->list);
 }
+
+data_type stack_top(Stack *s){
+    return forward_list_front(s->list);
+}

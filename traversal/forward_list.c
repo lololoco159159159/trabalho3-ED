@@ -214,3 +214,8 @@ void forward_list_destroy(ForwardList *l){
 
     free(l);
 }
+
+data_type forward_list_front(ForwardList *l){
+    return l->head->value;
+}
+

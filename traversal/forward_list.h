@@ -173,4 +173,6 @@ void forward_list_sort(ForwardList *l);
  */
 void forward_list_destroy(ForwardList *l);
 
+data_type forward_list_front(ForwardList *l);
+
 #endif

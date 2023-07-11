@@ -17,8 +17,8 @@ int cmp_fn(void *a, void *b);
 void key_destroy_fn(void *key);
 void val_destroy_fn(void *val);
 
-int main(){
-
+int main()
+{
     int i, n, idade;
     float altura;
     char op[20];
@@ -30,28 +30,41 @@ int main(){
 
     for (i = 0; i < n; i++)
     {
-        scanf("\n%s%*c", op);
+        scanf("\n%s", op);
 
-        if (!strcmp(op, "SET")){
+        if (!strcmp(op, "SET"))
+        {
             scanf("%s %d %f", nome, &idade, &altura);
             void *aux = binary_tree_add(bt, strdup(nome), person_construct(nome, idade, altura));
-            if(aux != NULL)
+            if (aux != NULL)
                 key_destroy_fn(aux);
         }
-        
-        else{
-            KeyValPair *pair;
+        else
+        {
+            if (!binary_tree_empty(bt))
+            {
+                KeyValPair *pair = NULL;
 
-            if (!strcmp(op, "MAX"))
-                pair = binary_tree_max(bt);
+                if (!strcmp(op, "POP_MAX"))
+                    pair = binary_tree_pop_max(bt);
+                else
+                    pair = binary_tree_pop_min(bt);
+
+                if(pair == NULL){
+                    printf("ARVORE VAZIA\n");
+                    continue;
+                }
+                Person *p = pair->value;
+                printf("%s %d %.2f\n", p->name, p->idade, p->altura);
+
+                key_destroy_fn(pair->key);
+                val_destroy_fn(pair->value);
+                key_val_pair_destroy(pair);
+            }
             else
-                pair = binary_tree_min(bt);
-
-            Person *p = pair->value;
-            printf("%s %d %.2f\n", p->name, p->idade, p->altura);
-            key_val_pair_destroy(pair);
+                printf("ARVORE VAZIA\n");
         }
-    }s
+    }
 
     binary_tree_destroy(bt);
 
